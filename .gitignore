@@ -1,0 +1,9 @@
+main.cpp
+
+.*
+!.vscode
+!.gitignore
+!.clang-format
+
+build/
+__pycache__/

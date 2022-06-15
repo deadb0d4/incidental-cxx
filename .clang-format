@@ -1,0 +1,21 @@
+BasedOnStyle: Google
+ColumnLimit: 80
+---
+Language: Cpp
+
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLambdasOnASingleLine: Empty
+
+DerivePointerAlignment: false
+PointerAlignment: Left
+SortIncludes: false
+
+AlignAfterOpenBracket: AlwaysBreak
+BinPackArguments: false
+BinPackParameters: false
+ExperimentalAutoDetectBinPacking: false
+AllowAllParametersOfDeclarationOnNextLine: false
+
+FixNamespaceComments: true
+ShortNamespaceLines: 0
