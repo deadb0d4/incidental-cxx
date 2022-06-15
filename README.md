@@ -1,10 +1,10 @@
 # Goal
 
-Project to implement and test useless yet fun algorithms in (hopefully) modern c++.
+Project to write some code in modern c++ for fun.
 
 # Platforms
 
-It is built and tested on macOS. It probably should be fine as long as one's compiler supports concepts and coroutines.
+It is built and tested on macOS and ubuntu 22.04 container using clang-15.
 
 # Roadmap
 
@@ -13,7 +13,6 @@ It is built and tested on macOS. It probably should be fine as long as one's com
 - [x] git repo
 - [x] no buffer mergesort
 - [x] closest points
-- [ ] viz. tool (another repo + wrapper)
 - [ ] splay tree
 - [ ] link-cut
 - [ ] dynamic connectivity
