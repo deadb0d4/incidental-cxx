@@ -1,12 +1,13 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <vector>
 #include <ostream>
 
 namespace color_tty {
 
-enum class Color {
+enum Color {
   kRed,
   kYellow,
   kGreen,
@@ -19,22 +20,9 @@ enum class Color {
 
 class Marker {
  public:
-  class Result {
-   public:
-    friend std::ostream& operator<<(std::ostream& os, const Result& ms);
-
-   private:
-    friend class Marker;
-
-    Result(std::string text, std::vector<Color> colors);
-
-    std::vector<Color> colors_;
-    std::string text_;
-  };
-
   Marker(std::vector<Color> colors);
 
-  Result Mark(const std::string& str);
+  std::string Mark(std::string_view str) const;
 
  private:
   std::vector<Color> colors_;

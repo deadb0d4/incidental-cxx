@@ -5,7 +5,8 @@
 	build \
 	bench \
 	test \
-	main
+	main \
+	format
 
 .DEFAULT_GOAL := main
 
@@ -39,3 +40,6 @@ test: build
 main: build
 	@echo "\033[0;32m-- Running ${BUILD_DIR}/main\033[0m" && \
 	${BUILD_DIR}/main
+
+format:
+	./stash/clang_format_all.sh

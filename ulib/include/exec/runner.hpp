@@ -2,9 +2,14 @@
 
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 #include <string>
 #include <tuple>
+#include <optional>
 #include <type_traits>
+#include <memory>
+
+#include <utils/fs.hpp>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,77 +18,64 @@
 namespace exec {
 
 namespace impl {
-struct OpenedFile {
-  OpenedFile(const char* name, const char* mode) : fptr(fopen(name, mode)) {
-  }
 
-  ~OpenedFile() {
-    Invalidate();
-  }
+class OpenedFile {
+ public:
+  OpenedFile(const char* name, const char* mode);
+  ~OpenedFile();
+  int Fd() const;
+  void DupTo(int tar);
+  void Invalidate();
 
-  int Fd() const {
-    return fileno(fptr);
-  }
-
-  void DupTo(int tar) {
-    if (dup2(Fd(), tar) == -1) {
-      throw std::runtime_error("dup2 error");
-    }
-    Invalidate();
-  }
-
-  void Invalidate() {
-    if (fptr) {
-      fclose(fptr);
-    }
-    fptr = nullptr;
-  }
-
+ private:
   FILE* fptr;
 };
+
 }  // namespace impl
 
-template <std::convertible_to<std::string>... T>
-auto Cmd(T&&... t) {
-  return std::make_tuple(std::string(std::forward<T>(t))...);
-}
+class ChildProc {
+ public:
+  explicit ChildProc(pid_t p);
+  ~ChildProc();
+  int BlockingWait() const;
 
-template <class T>
-concept String = std::is_same_v<T, std::string>;
+ private:
+  mutable pid_t pid;
+};
 
-/// @brief: this class captures input, output and error text files.
-/// Then, it binds `std{in,out,err}` to these files and runs executables
-///
-/// TODO: Separate waiting and starting job
-struct Runner {
-  const std::filesystem::path in_file;
-  const std::filesystem::path out_file;
-  const std::filesystem::path err_file;
+struct Job {
+  std::optional<std::filesystem::path> in_file{std::nullopt};
+  std::optional<std::filesystem::path> out_file{std::nullopt};
+  std::optional<std::filesystem::path> err_file{std::nullopt};
 
-  /// @brief set filenames manually
-  Runner(
-      std::filesystem::path in,
-      std::filesystem::path out,
-      std::filesystem::path err);
+  virtual ~Job() = default;
+  Job& InputFile(std::filesystem::path p);
+  Job& OutFile(std::filesystem::path p);
+  Job& ErrFile(std::filesystem::path p);
+  virtual ChildProc Run() const = 0;
+};
 
-  /// @brief initializes files with `tmp` / `{input,out,err}.txt`
-  Runner(const std::filesystem::path& tmp = "/tmp");
+template <class TupleType>
+class CmdJob final : public Job {
+ public:
+  CmdJob(TupleType t) : args(std::move(t)) {
+  }
 
-  /// @brief writes content of `input` line-by-line to the input file
-  void SetInput(std::istream& input) const;
-
-  /// @brief run a command with flags specified by `args`
-  template <String... T>
-  int Run(const std::tuple<T...>& args) const {
+  virtual ChildProc Run() const override {
     auto pid = fork();
     if (pid == -1) {
       throw std::runtime_error("fork error");
     }
     if (pid == 0) {
-      {
-        impl::OpenedFile(in_file.c_str(), "r").DupTo(STDIN_FILENO);
-        impl::OpenedFile(out_file.c_str(), "w").DupTo(STDOUT_FILENO);
-        impl::OpenedFile(err_file.c_str(), "w").DupTo(STDERR_FILENO);
+      if (in_file) {
+        utils::CreateIfNotExists(*in_file);
+        impl::OpenedFile(in_file->c_str(), "r").DupTo(STDIN_FILENO);
+      }
+      if (out_file) {
+        impl::OpenedFile(out_file->c_str(), "w").DupTo(STDOUT_FILENO);
+      }
+      if (err_file) {
+        impl::OpenedFile(err_file->c_str(), "w").DupTo(STDERR_FILENO);
       }
       std::apply(
           [name = std::get<0>(args).c_str()](const auto&... t) {
@@ -92,15 +84,17 @@ struct Runner {
           args);
       exit(1);
     }
-    int status;
-    if (waitpid(pid, &status, 0) == -1) {
-      throw std::runtime_error("waitpid error");
-    }
-    if (WIFEXITED(status)) {
-      return WEXITSTATUS(status);
-    }
-    throw std::runtime_error("!wifexited");
+    return ChildProc{pid};
   }
+
+ private:
+  const TupleType args;
 };
+
+template <std::convertible_to<std::string>... T>
+auto Cmd(T&&... t) {
+  auto args = std::make_tuple(std::string(std::forward<T>(t))...);
+  return std::make_unique<CmdJob<decltype(args)>>(std::move(args));
+}
 
 }  // namespace exec

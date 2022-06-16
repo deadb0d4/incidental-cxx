@@ -4,7 +4,10 @@
 
 namespace color_tty {
 
-std::ostream& operator<<(std::ostream& os, const Marker::Result& ms) {
+Marker::Marker(std::vector<Color> colors) : colors_(std::move(colors)) {
+}
+
+std::string Marker::Mark(std::string_view str) const {
   static const std::unordered_map<Color, std::string> tags = {
       {Color::kRed, "\033[91m"},
       {Color::kYellow, "\033[33m"},
@@ -16,26 +19,15 @@ std::ostream& operator<<(std::ostream& os, const Marker::Result& ms) {
       {Color::kBold, "\033[1m"},
   };
   static const std::string end_tag = "\033[0m";
-
-  for (auto c : ms.colors_) {
-    os << tags.at(c);
+  std::string res;
+  for (auto c : colors_) {
+    res += tags.at(c);
   }
-  os << ms.text_;
-  for (auto _ : ms.colors_) {
-    os << end_tag;
+  res += str;
+  for (auto _ : colors_) {
+    res += end_tag;
   }
-  return os;
-}
-
-Marker::Result::Result(std::string text, std::vector<Color> colors)
-    : text_(std::move(text)), colors_(std::move(colors)) {
-}
-
-Marker::Marker(std::vector<Color> colors) : colors_(std::move(colors)) {
-}
-
-Marker::Result Marker::Mark(const std::string& str) {
-  return Marker::Result(str, colors_);
+  return res;
 }
 
 }  // namespace color_tty

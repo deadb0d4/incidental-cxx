@@ -168,15 +168,21 @@ class SinglePass {
     return {};
   }
 
-  bool Done() {
+  bool Done() const {
     return handle.done();
   }
 
   const T* Get() const {
+    if (Done()) {
+      return nullptr;
+    }
     return handle.promise().GetValue();
   }
 
   void Next() {
+    if (Done()) {
+      return;
+    }
     handle();
     handle.promise().RethrowIf();
   }

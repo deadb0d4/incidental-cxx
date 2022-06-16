@@ -13,4 +13,7 @@ target_include_directories(ulib PUBLIC ${Boost_INCLUDE_DIRS})
 find_library(BOOST_CONTEXT_MT boost_context-mt HINTS ${Boost_LIBRARY_DIRS} REQUIRED)
 target_link_libraries(ulib PUBLIC ${BOOST_CONTEXT_MT})
 
+find_library(BOOST_PO_MT boost_program_options-mt HINTS ${Boost_LIBRARY_DIRS} REQUIRED)
+target_link_libraries(ulib PUBLIC ${BOOST_PO_MT})
+
 target_include_directories(ulib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

@@ -20,6 +20,7 @@ constexpr size_t GetVariantIndex() {
 
 }  // namespace impl
 
+/// @brief: variant sugar for non-duplicate types
 template <typename... Types>
 class Variant {
  public:
@@ -37,13 +38,13 @@ class Variant {
   }
 
   template <typename T>
-  bool Is() const {
-    return value.index() == impl::GetVariantIndex<T, V, 0>();
+  T* Get() {
+    return get_if<impl::GetVariantIndex<T, V, 0>()>(&value);
   }
 
-  template <typename T>
-  T& Get() {
-    return get<impl::GetVariantIndex<T, V, 0>()>(value);
+  template <typename Vis>
+  void Apply(Vis&& vis) const {
+    std::visit(std::forward<Vis>(vis), value);
   }
 
  private:
