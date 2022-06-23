@@ -1,8 +1,9 @@
-main.cpp
+*.cc
 
 .*
 !.vscode
 !.gitignore
+!.gitkeep
 !.clang-format
 
 build/

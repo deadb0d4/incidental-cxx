@@ -22,9 +22,13 @@ namespace impl {
 class OpenedFile {
  public:
   OpenedFile(const char* name, const char* mode);
+
   ~OpenedFile();
+
   int Fd() const;
+
   void DupTo(int tar);
+
   void Invalidate();
 
  private:
@@ -36,7 +40,17 @@ class OpenedFile {
 class ChildProc {
  public:
   explicit ChildProc(pid_t p);
+
   ~ChildProc();
+
+  ChildProc(const ChildProc&) = delete;
+
+  ChildProc& operator=(const ChildProc&) = delete;
+
+  ChildProc(ChildProc&& proc) noexcept;
+
+  ChildProc& operator=(ChildProc&& proc) noexcept;
+
   int BlockingWait() const;
 
  private:
@@ -44,14 +58,18 @@ class ChildProc {
 };
 
 struct Job {
-  std::optional<std::filesystem::path> in_file{std::nullopt};
-  std::optional<std::filesystem::path> out_file{std::nullopt};
-  std::optional<std::filesystem::path> err_file{std::nullopt};
+  std::optional<std::filesystem::path> in_file{};
+  std::optional<std::filesystem::path> out_file{};
+  std::optional<std::filesystem::path> err_file{};
 
   virtual ~Job() = default;
+
   Job& InputFile(std::filesystem::path p);
+
   Job& OutFile(std::filesystem::path p);
+
   Job& ErrFile(std::filesystem::path p);
+
   virtual ChildProc Run() const = 0;
 };
 

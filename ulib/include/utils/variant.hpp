@@ -3,6 +3,8 @@
 #include <variant>
 #include <type_traits>
 
+#include <utils/none.hpp>
+
 namespace utils {
 
 namespace impl {
@@ -23,8 +25,11 @@ constexpr size_t GetVariantIndex() {
 /// @brief: variant sugar for non-duplicate types
 template <typename... Types>
 class Variant {
+ private:
+  using V = std::variant<None, Types...>;
+
  public:
-  Variant() : value() {
+  Variant() : value(None{}) {
   }
 
   template <typename T>
@@ -42,14 +47,21 @@ class Variant {
     return get_if<impl::GetVariantIndex<T, V, 0>()>(&value);
   }
 
-  template <typename Vis>
-  void Apply(Vis&& vis) const {
-    std::visit(std::forward<Vis>(vis), value);
+  template <typename Fn>
+  void Apply(Fn&& fn) {
+    std::visit(
+        [vis = std::forward<Fn>(fn)](const auto& arg) {
+          using T = std::decay_t<decltype(arg)>;
+          if constexpr (std::is_same_v<T, None>) {
+            return;
+          } else {
+            vis(arg);
+          }
+        },
+        value);
   }
 
  private:
-  using V = std::variant<Types...>;
-
   V value;
 };
 

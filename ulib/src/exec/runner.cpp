@@ -41,6 +41,19 @@ ChildProc::~ChildProc() {
   }
 }
 
+ChildProc::ChildProc(ChildProc&& proc) noexcept {
+  pid = 0;
+  std::swap(proc.pid, pid);
+}
+
+ChildProc& ChildProc::operator=(ChildProc&& proc) noexcept {
+  if (pid != 0) {
+    std::terminate();
+  }
+  std::swap(pid, proc.pid);
+  return *this;
+}
+
 int ChildProc::BlockingWait() const {
   pid_t p = 0;
   std::swap(p, pid);

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cp stash/main.cpp .
+cp stash/main.cpp main.cc

@@ -2,4 +2,4 @@
 
 set -e -x
 
-cp -n stash/main.cpp .
+cp -n stash/main.cpp main.cc
