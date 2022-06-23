@@ -2,7 +2,9 @@ set(BENCHMARK_ENABLE_TESTING off)
 
 FetchContent_Declare(googlebenchmark
     GIT_REPOSITORY https://github.com/google/benchmark.git
-    GIT_TAG master) # need master for benchmark::benchmark
+    GIT_SHALLOW    TRUE
+    GIT_PROGRESS   TRUE
+    GIT_TAG        master)
 FetchContent_MakeAvailable(
     googlebenchmark)
 
