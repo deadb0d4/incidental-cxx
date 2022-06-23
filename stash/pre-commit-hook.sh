@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
 
-./stash/clang_format_all.sh
+./stash/format.sh
 git add -A

@@ -6,6 +6,8 @@
 #include <traits/concepts.hpp>
 #include <debug/macros.hpp>
 
+#include <debug/debug.hpp>
+
 namespace urand {
 
 namespace debug {
@@ -24,7 +26,7 @@ template <traits::Numerical T>
 T Uniform(
     T min = std::numeric_limits<T>::min(),
     T max = std::numeric_limits<T>::max()) {
-  if (::debug::Active()) {
+  if constexpr (::debug::IsActive()) {
     if (auto opt = debug::MockedUniformValue<T>()) {
       return *opt;
     }

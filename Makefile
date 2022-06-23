@@ -42,4 +42,4 @@ main: build
 	${BUILD_DIR}/main
 
 format:
-	./stash/clang_format_all.sh
+	./stash/format.sh

@@ -7,9 +7,9 @@ from walk import walk_dir
 
 
 def get_binary_name(filename):
-    assert(filename[0] == '/')
-    filename = filename.rsplit('.', 1)[0]
-    filename = filename.replace('/', '_')
+    assert filename[0] == "/"
+    filename = filename.rsplit(".", 1)[0]
+    filename = filename.replace("/", "_")
     return f"benchmark{filename}"
 
 
