@@ -12,7 +12,7 @@ std::string Marker::Mark(std::string_view str) const {
       {Color::kRed, "\033[91m"},
       {Color::kYellow, "\033[33m"},
       {Color::kGreen, "\033[32m"},
-      {Color::kCyan, "033[36m"},
+      {Color::kCyan, "\033[36m"},
       {Color::kMagenta, "\033[35m"},
       {Color::kUnderline, "\033[4m"},
       {Color::kBlink, "\33[5m"},
