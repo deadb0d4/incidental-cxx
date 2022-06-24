@@ -6,7 +6,7 @@
 namespace debug {
 
 constexpr bool IsActive() {
-{% if kwargs['build_type'] == 'Debug' %}
+{% if build_type == 'Debug' %}
   return true;
 {% else %}
   return false;

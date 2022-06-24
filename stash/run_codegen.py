@@ -13,6 +13,9 @@ def prep_parser():
     parser.add_argument(
         "--codegen_build_dir", help="Path to the codegen build directory", required=True
     )
+    parser.add_argument(
+        "--build_dir", help="Path to the cmake build directory", required=True
+    )
     parser.add_argument("--build_type", help="cmake build type", required=True)
     return parser.parse_args()
 

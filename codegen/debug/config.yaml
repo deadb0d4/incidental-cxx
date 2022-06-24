@@ -1,0 +1,7 @@
+description: |
+  This example codegen script generates (hpp|cpp) files
+  based on the cmake build type. You can specify the log file
+  for debug mode. If empty the std::cerr is used
+
+# filename or empty
+debug_log_filename: "{build_dir}/debug.txt"
