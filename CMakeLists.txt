@@ -2,13 +2,13 @@ project("incidental-cxx")
 
 cmake_minimum_required(VERSION 3.22)
 
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include(FetchContent)
-set(FETCHCONTENT_QUIET FALSE)
+set(FETCHCONTENT_QUIET    FALSE)
+set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/cmake-deps")
 
 if (ASAN)
   include(cmake/asan.cmake)
