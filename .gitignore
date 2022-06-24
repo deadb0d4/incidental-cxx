@@ -6,6 +6,9 @@
 !.gitkeep
 !.clang-format
 
+junk/*
+!junk/.gitkeep
+
 build/
 cmake-deps/
 __pycache__/

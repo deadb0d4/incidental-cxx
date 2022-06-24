@@ -1,10 +1,15 @@
+#include <chrono>
 #include <debug/lap.hpp>
 
 #include <iostream>
 
 namespace debug {
 
-Lap::Lap(std::string name) : begin(std::chrono::steady_clock::now()) {
+namespace {
+using namespace std::chrono;
+}  // namespace
+
+Lap::Lap(std::string name) : begin(steady_clock::now()) {
   if (name.size()) {
     std::cout << "Entering lap: " << name << '\n';
   }
@@ -14,10 +19,8 @@ Lap::~Lap() noexcept {
   if (not *this) {
     return;
   }
-  auto dur = std::chrono::steady_clock::now() - begin;
-  std::cout
-      << std::chrono::duration_cast<std::chrono::milliseconds>(dur).count()
-      << "ms\n";
+  auto dur = steady_clock::now() - begin;
+  std::cout << duration_cast<microseconds>(dur).count() / 1000. << "ms\n";
 }
 
 Lap::Lap(Lap&& other) noexcept {
