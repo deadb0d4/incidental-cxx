@@ -14,12 +14,14 @@ if (ASAN)
   include(cmake/asan.cmake)
 endif()
 
+include(cmake/deps.cmake)
+
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
   include(cmake/benchmarks.cmake)
   include(cmake/release.cmake)
 elseif (CMAKE_BUILD_TYPE STREQUAL "Debug")
   include(cmake/unit-tests.cmake)
-  include(cmake/debug-flags.cmake)
+  include(cmake/debug.cmake)
 endif()
 
 # codegen run
