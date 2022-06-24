@@ -6,9 +6,9 @@ if (CMAKE_BUILD_TYPE STREQUAL "Release")
         GIT_SHALLOW    TRUE
         GIT_PROGRESS   TRUE
         GIT_TAG        master)
-        FetchContent_MakeAvailable(googlebenchmark)
     set(BENCHMARK_ENABLE_TESTING OFF  CACHE BOOL "" FORCE)
     set(BENCHMARK_ENABLE_LTO     TRUE)
+    FetchContent_MakeAvailable(googlebenchmark)
 endif()
 
 ################################################################################
