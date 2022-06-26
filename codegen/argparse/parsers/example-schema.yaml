@@ -1,0 +1,46 @@
+UnitTest1:
+  help: Test bool + default + required
+  options:
+    explicit_true:
+      type: bool
+      char: a
+      default: True
+    
+    explicit_false:
+      type: bool
+      char: b
+      default: False
+    
+    implicit_false:
+      type: bool
+      char: c
+
+UnitTest2:
+  help: Test int + default + required
+  options:
+    flag1:
+      type: int
+      char: a
+      default: 133
+    
+    flag2?:
+      type: int
+
+    flag3:
+      type: int
+      char: b
+
+UnitTest3:
+  help: str + [str] + [int]
+  options:
+    str_flag?:
+      type: str
+      char: a
+    
+    int_list?:
+      type: [int]
+      char: b
+
+    str_list:
+      type: [str]
+      default: ["kek", "lol"]

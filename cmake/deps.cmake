@@ -5,7 +5,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Release")
         GIT_REPOSITORY https://github.com/google/benchmark.git
         GIT_SHALLOW    TRUE
         GIT_PROGRESS   TRUE
-        GIT_TAG        master)
+        GIT_TAG        v1.6.1)
     set(BENCHMARK_ENABLE_TESTING OFF  CACHE BOOL "" FORCE)
     set(BENCHMARK_ENABLE_LTO     TRUE)
     FetchContent_MakeAvailable(googlebenchmark)
@@ -18,7 +18,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         GIT_REPOSITORY https://github.com/google/googletest.git
         GIT_SHALLOW    TRUE
         GIT_PROGRESS   TRUE
-        GIT_TAG        origin/main)
+        GIT_TAG        5376968f6948923e2411081fd9372e71a59d8e77)
     FetchContent_MakeAvailable(googletest)
 endif()
 
@@ -31,7 +31,7 @@ find_library(BOOST_CONTEXT_MT boost_context-mt HINTS ${Boost_LIBRARY_DIRS} REQUI
 
 FetchContent_Declare(robin_hood_hashmap
     GIT_REPOSITORY https://github.com/deadb0d4/robin-hood-header.git
-    GIT_TAG        origin/develop
+    GIT_TAG        5069956761b85c0d7868bc29194ecb0612aee212
     GIT_SHALLOW    TRUE
     GIT_PROGRESS   TRUE)
 FetchContent_MakeAvailable(

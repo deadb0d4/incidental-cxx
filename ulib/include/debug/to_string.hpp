@@ -12,7 +12,6 @@ namespace debug {
 template <class T>
 std::string ToString(const T& t);
 
-/// TODO: make a class for custom brackets and delimiter
 template <traits::Numerical T>
 std::string ToString(const T& t) {
   return std::to_string(t);
@@ -21,9 +20,12 @@ std::string ToString(const T& t) {
 template <>
 std::string ToString(const bool& f);
 
-template <std::convertible_to<std::string> T>
+template <class T>
+requires requires(const T& t) {
+  std::string(t);
+}
 std::string ToString(const T& str) {
-  return str;
+  return std::string(str);
 }
 
 template <traits::Iterable T>
