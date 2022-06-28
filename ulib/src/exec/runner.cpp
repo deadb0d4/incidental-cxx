@@ -70,19 +70,16 @@ int ChildProc::BlockingWait() const {
   throw std::runtime_error("!wifexited");
 }
 
-Job& Job::InputFile(std::filesystem::path p) {
+void Job::SetInputFile(std::filesystem::path p) {
   in_file = std::move(p);
-  return *this;
 }
 
-Job& Job::OutFile(std::filesystem::path p) {
+void Job::SetOutFile(std::filesystem::path p) {
   out_file = std::move(p);
-  return *this;
 }
 
-Job& Job::ErrFile(std::filesystem::path p) {
+void Job::SetErrFile(std::filesystem::path p) {
   err_file = std::move(p);
-  return *this;
 }
 
 }  // namespace exec

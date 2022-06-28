@@ -64,11 +64,11 @@ struct Job {
 
   virtual ~Job() = default;
 
-  Job& InputFile(std::filesystem::path p);
+  void SetInputFile(std::filesystem::path p);
 
-  Job& OutFile(std::filesystem::path p);
+  void SetOutFile(std::filesystem::path p);
 
-  Job& ErrFile(std::filesystem::path p);
+  void SetErrFile(std::filesystem::path p);
 
   virtual ChildProc Run() const = 0;
 };

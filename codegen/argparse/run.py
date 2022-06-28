@@ -86,6 +86,7 @@ class Parser:
         return f"argparse/parsers/{to_snake_case(self.name)}.hpp"
 
 
+# TODO: change interface to argc/argv
 def main():
     jp = os.path.join
 
@@ -97,8 +98,9 @@ def main():
 
     parsers_dir = jp(my_dir, "parsers")
     for e in os.listdir(parsers_dir):
-        if not e.endswith(".yaml"):
+        if not e.endswith(".yaml") and not e.endswith(".yml"):
             continue
+
         got = open_yaml(jp(parsers_dir, e))
         for parser_name, parser_desc in got.items():
             parser = Parser(parser_name)
