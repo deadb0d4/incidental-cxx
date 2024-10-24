@@ -2,5 +2,5 @@
     "editor.tabSize": 2,
     "files.insertFinalNewline": true,
     "editor.bracketPairColorization.enabled": false,
-    "workbench.activityBar.visible": false
+    "workbench.activityBar.location": "hidden"
 }

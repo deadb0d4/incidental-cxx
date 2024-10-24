@@ -24,9 +24,9 @@ concept RefersTo =
 
 template <typename T, typename Value = decltype(*T().begin())>
 concept Iterable = requires(T t) {
-  {t.begin()};
+  { t.begin() };
 
-  {t.end()};
+  { t.end() };
 
   { *t.begin() } -> RefersTo<Value>;
 };

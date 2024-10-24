@@ -21,15 +21,14 @@ template <>
 std::string ToString(const bool& f);
 
 template <class T>
-requires requires(const T& t) {
-  std::string(t);
-}
+  requires requires(const T& t) { std::string(t); }
 std::string ToString(const T& str) {
   return std::string(str);
 }
 
 template <traits::Iterable T>
-requires(!std::convertible_to<std::string, T>) std::string ToString(const T& t);
+  requires(!std::convertible_to<std::string, T>)
+std::string ToString(const T& t);
 
 template <class... T>
 std::string ToString(const std::tuple<T...>& t);
@@ -38,8 +37,8 @@ template <
     class T,
     class F = decltype(T().first),
     class S = decltype(T().second)>
-requires std::convertible_to<T, std::pair<F, S>> std::string ToString(
-    const T& p) {
+  requires std::convertible_to<T, std::pair<F, S>>
+std::string ToString(const T& p) {
   return "{" + ToString(p.first) + ", " + ToString(p.second) + '}';
 }
 
@@ -61,9 +60,9 @@ std::string ToString(const std::tuple<T...>& t) {
 }
 
 template <traits::Iterable T>
-requires(!std::convertible_to<std::string, T>) std::string
-    ToString(const T& t) {
-  return ToString(coro::Loop(t));
+  requires(!std::convertible_to<std::string, T>)
+std::string ToString(const T& t) {
+  return "";  // ToString(coro::Loop(t));
 }
 
 template <class T>

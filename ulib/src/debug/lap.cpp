@@ -16,7 +16,7 @@ Lap::Lap(std::string name) : begin(steady_clock::now()) {
 }
 
 Lap::~Lap() noexcept {
-  if (not *this) {
+  if (not*this) {
     return;
   }
   auto dur = steady_clock::now() - begin;

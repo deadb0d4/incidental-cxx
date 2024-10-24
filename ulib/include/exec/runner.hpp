@@ -70,7 +70,7 @@ struct Job {
 
   void SetErrFile(std::filesystem::path p);
 
-  virtual ChildProc Run() const = 0;
+  [[nodiscard]] virtual ChildProc Run() const = 0;
 };
 
 template <class TupleType>
@@ -79,7 +79,7 @@ class CmdJob final : public Job {
   CmdJob(TupleType t) : args(std::move(t)) {
   }
 
-  virtual ChildProc Run() const override {
+  [[nodiscard]] virtual ChildProc Run() const override {
     auto pid = fork();
     if (pid == -1) {
       throw std::runtime_error("fork error");

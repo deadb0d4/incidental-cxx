@@ -18,14 +18,14 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         GIT_REPOSITORY https://github.com/google/googletest.git
         GIT_SHALLOW    TRUE
         GIT_PROGRESS   TRUE
-        GIT_TAG        5376968f6948923e2411081fd9372e71a59d8e77)
+        GIT_TAG        main)
     FetchContent_MakeAvailable(googletest)
 endif()
 
 ################################################################################
 
-find_package(Boost 1.74.0 REQUIRED)
-find_library(BOOST_CONTEXT_MT boost_context-mt HINTS ${Boost_LIBRARY_DIRS} REQUIRED)
+find_package(Boost 1.86.0 REQUIRED)
+find_library(BOOST_CONTEXT_MT boost_context HINTS ${Boost_LIBRARY_DIRS} REQUIRED)
 
 ################################################################################
 
